@@ -1,6 +1,6 @@
 ﻿namespace Portfolio.Domain.Commons;
 
-internal class Auditable
+public class Auditable
 {
 
 }

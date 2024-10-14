@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Interfaces;
 
-internal interface IProjectService
+public interface IProjectService
 {
 }

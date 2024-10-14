@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Services;
 
-internal class SkillService
+public class SkillService
 {
 }

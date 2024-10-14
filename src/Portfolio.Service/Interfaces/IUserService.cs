@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Interfaces;
 
-internal interface IUserService
+public interface IUserService
 {
 }

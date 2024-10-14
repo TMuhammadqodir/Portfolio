@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.DataAccess.IRepositories;
 
-internal class IRepository
+public class IRepository
 {
 }

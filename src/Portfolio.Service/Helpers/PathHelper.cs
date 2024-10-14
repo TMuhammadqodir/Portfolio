@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Helpers;
 
-internal class PathHelper
+public class PathHelper
 {
 }

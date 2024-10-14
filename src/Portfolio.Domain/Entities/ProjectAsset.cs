@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Domain.Entities;
 
-internal class ProjectAsset
+public class ProjectAsset
 {
 }

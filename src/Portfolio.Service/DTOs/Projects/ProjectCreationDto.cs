@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.DTOs.Projects;
 
-internal class ProjectCreationDto
+public class ProjectCreationDto
 {
 }

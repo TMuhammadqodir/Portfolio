@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Exceptions;
 
-internal class AlreadyExistException
+public class AlreadyExistException
 {
 }

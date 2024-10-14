@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Exceptions;
 
-internal class NotFoundException
+public class NotFoundException
 {
 }

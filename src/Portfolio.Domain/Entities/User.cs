@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Domain.Entities;
 
-internal class User
+public class User
 {
 }

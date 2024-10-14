@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Helpers;
 
-internal class PasswordHash
+public class PasswordHash
 {
 }

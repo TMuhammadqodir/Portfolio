@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Domain.Enums;
 
-internal enum ProjectUploadType
+public enum ProjectUploadType
 {
 }

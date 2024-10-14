@@ -1,5 +1,5 @@
 ﻿namespace Portfolio.Service.Extensions;
 
-internal class CollectionExtension
+public class CollectionExtension
 {
 }
