@@ -1,0 +1,5 @@
+﻿namespace Portfolio.Service.Services;
+
+public class ProjectService
+{
+}
