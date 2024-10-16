@@ -1,8 +1,9 @@
-﻿using Portfolio.Domain.Enums;
+﻿using Portfolio.Domain.Entities;
+using Portfolio.Domain.Enums;
 
 namespace Portfolio.Service.DTOs.Educations;
 
-public class EducationCreationDto
+public class EducationResultDto
 {
     public string School { get; set; }
     public string FieldOfStudy { get; set; }
@@ -12,5 +13,5 @@ public class EducationCreationDto
     public float Grade { get; set; }
     public string Description { get; set; }
 
-    public long UserId { get; set; }
+    public User User { get; set; }
 }

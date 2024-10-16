@@ -1,15 +1,12 @@
-﻿using Portfolio.Domain.Commons;
-using Portfolio.Domain.Enums;
+﻿using Portfolio.Domain.Entities;
 
-namespace Portfolio.Domain.Entities;
+namespace Portfolio.Service.DTOs.Projects;
 
-public class Project : Auditable
+public class ProjectResultDto
 {
     public string Name { get; set; }
     public string Description { get; set; }
 
-    public long UserId { get; set; }
     public User User { get; set; }
-
     public ICollection<ProjectAsset> ProjectAssets { get; set; }
 }
