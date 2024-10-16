@@ -1,9 +1,9 @@
-﻿using Portfolio.Domain.Commons;
+﻿using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 
-namespace Portfolio.Domain.Entities;
+namespace Portfolio.Service.DTOs.Users;
 
-public class User : Auditable
+public class UserResultDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

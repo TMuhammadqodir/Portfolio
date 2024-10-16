@@ -1,9 +1,8 @@
-﻿using Portfolio.Domain.Commons;
-using Portfolio.Domain.Enums;
+﻿using Portfolio.Domain.Enums;
 
-namespace Portfolio.Domain.Entities;
+namespace Portfolio.Service.DTOs.Educations;
 
-public class Education : Auditable
+public class EducationUpdateDto
 {
     public string School { get; set; }
     public string FieldOfStudy { get; set; }
@@ -12,7 +11,4 @@ public class Education : Auditable
     public DateTime EndTime { get; set; }
     public float Grade { get; set; }
     public string Description { get; set; }
-
-    public long UserId { get; set; }
-    public User User { get; set; }
 }

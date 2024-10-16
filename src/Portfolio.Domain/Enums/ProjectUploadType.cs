@@ -2,4 +2,6 @@
 
 public enum ProjectUploadType
 {
+    Picture = 1,
+    Video
 }

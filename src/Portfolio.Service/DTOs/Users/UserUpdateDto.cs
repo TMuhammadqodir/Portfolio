@@ -2,7 +2,7 @@
 
 namespace Portfolio.Service.DTOs.Users;
 
-public class UserCreationDto
+public class UserUpdateDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

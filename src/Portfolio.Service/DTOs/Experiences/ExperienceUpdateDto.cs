@@ -1,8 +1,6 @@
-﻿using Portfolio.Domain.Commons;
+﻿namespace Portfolio.Service.DTOs.Experiences;
 
-namespace Portfolio.Domain.Entities;
-
-public class Experience : Auditable
+public class ExperienceUpdateDto
 {
     public string Title { get; set; }
     public string Company { get; set; }
@@ -11,7 +9,4 @@ public class Experience : Auditable
     public DateTime? EndTime { get; set; }
     public string Address { get; set; }
     public bool IsCurrentJob { get; set; } = false;
-
-    public long UserId { get; set; }
-    public User User { get; set; }
 }
