@@ -13,8 +13,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Asset, AssetsCreationDto>().ReverseMap();
-        CreateMap<Asset, AssetsResultDto>().ReverseMap();
+        CreateMap<Asset, AssetCreationDto>().ReverseMap();
+        CreateMap<Asset, AssetResultDto>().ReverseMap();
 
         CreateMap<Education, EducationCreationDto>().ReverseMap();
         CreateMap<Education, EducationUpdateDto>().ReverseMap();

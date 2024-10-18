@@ -4,6 +4,7 @@ namespace Portfolio.Service.DTOs.Experiences;
 
 public class ExperienceResultDto
 {
+    public long Id { get; set; }
     public string Title { get; set; }
     public string Company { get; set; }
     public string Description { get; set; }

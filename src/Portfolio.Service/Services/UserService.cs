@@ -1,5 +1,7 @@
-﻿namespace Portfolio.Service.Services;
+﻿using Portfolio.Service.Interfaces;
 
-public class UserService
+namespace Portfolio.Service.Services;
+
+public class UserService : IUserService
 {
 }

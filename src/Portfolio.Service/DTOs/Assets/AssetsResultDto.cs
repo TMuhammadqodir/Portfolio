@@ -1,6 +1,6 @@
 ﻿namespace Portfolio.Service.DTOs.Assets;
 
-public class AssetsResultDto
+public class AssetResultDto
 {
     public long Id { get; set; }
     public string FileName { get; set; }

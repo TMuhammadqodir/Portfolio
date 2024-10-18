@@ -1,5 +1,6 @@
 ﻿namespace Portfolio.Service.Helpers;
 
-public class PathHelper
+public static class PathHelper
 {
+    public static string WebRootPath { get; set; }
 }
