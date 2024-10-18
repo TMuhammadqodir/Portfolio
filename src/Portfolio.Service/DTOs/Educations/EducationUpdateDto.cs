@@ -4,6 +4,7 @@ namespace Portfolio.Service.DTOs.Educations;
 
 public class EducationUpdateDto
 {
+    public long Id { get; set; }
     public string School { get; set; }
     public string FieldOfStudy { get; set; }
     public DegreeType Degree { get; set; }
