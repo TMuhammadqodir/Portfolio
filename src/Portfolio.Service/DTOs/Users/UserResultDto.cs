@@ -1,5 +1,9 @@
 ﻿using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
+using Portfolio.Service.DTOs.Educations;
+using Portfolio.Service.DTOs.Experiences;
+using Portfolio.Service.DTOs.Projects;
+using Portfolio.Service.DTOs.Skills;
 
 namespace Portfolio.Service.DTOs.Users;
 
@@ -13,9 +17,9 @@ public class UserResultDto
 
     public UserRole Role { get; set; }
 
-    public ICollection<Education> Educations { get; set; }
-    public ICollection<Experience> Experiences { get; set; }
-    public ICollection<Project> Projects { get; set; }
-    public ICollection<Skill> Skills { get; set; }
-    public ICollection<UserAsset> UserAssets { get; set; }
+    public ICollection<EducationResultDto> Educations { get; set; }
+    public ICollection<ExperienceResultDto> Experiences { get; set; }
+    public ICollection<ProjectResultDto> Projects { get; set; }
+    public ICollection<SkillResultDto> Skills { get; set; }
+    public ICollection<UserResultDto> UserAssets { get; set; }
 }

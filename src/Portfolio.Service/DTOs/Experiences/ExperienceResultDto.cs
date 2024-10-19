@@ -1,4 +1,5 @@
 ﻿using Portfolio.Domain.Entities;
+using Portfolio.Service.DTOs.Users;
 
 namespace Portfolio.Service.DTOs.Experiences;
 
@@ -13,5 +14,5 @@ public class ExperienceResultDto
     public string Address { get; set; }
     public bool IsCurrentJob { get; set; } = false;
 
-    public User User { get; set; }
+    public UserResultDto User { get; set; }
 }
