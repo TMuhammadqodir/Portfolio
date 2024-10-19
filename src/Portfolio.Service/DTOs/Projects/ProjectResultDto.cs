@@ -1,4 +1,6 @@
 ﻿using Portfolio.Domain.Entities;
+using Portfolio.Service.DTOs.ProjectAssets;
+using Portfolio.Service.DTOs.Users;
 
 namespace Portfolio.Service.DTOs.Projects;
 
@@ -8,6 +10,6 @@ public class ProjectResultDto
     public string Name { get; set; }
     public string Description { get; set; }
 
-    public User User { get; set; }
-    public ICollection<ProjectAsset> ProjectAssets { get; set; }
+    public UserResultDto User { get; set; }
+    public ICollection<ProjectAssetResultDto> ProjectAssets { get; set; }
 }

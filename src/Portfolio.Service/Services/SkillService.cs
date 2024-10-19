@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess.IRepositories;
 using Portfolio.Domain.Entities;
 using Portfolio.Service.DTOs.Skills;

@@ -21,9 +21,9 @@ public class AssetService : IAssetService
         this.assetRepository = assetRepository;
     }
 
-    public async Task<AssetResultDto> UploadImageAsync(AssetCreationDto dto)
+    public async Task<AssetResultDto> UploadImageAsync(AssetCreationDto dto, Enum type)
     {
-        var weebrootPath = Path.Combine(PathHelper.WebRootPath, "Images");
+        var weebrootPath = Path.Combine(PathHelper.WebRootPath, type.ToString());
 
         if (!Directory.Exists(weebrootPath))
             Directory.CreateDirectory(weebrootPath);
