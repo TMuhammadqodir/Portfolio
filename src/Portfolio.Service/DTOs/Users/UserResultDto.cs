@@ -4,11 +4,13 @@ using Portfolio.Service.DTOs.Educations;
 using Portfolio.Service.DTOs.Experiences;
 using Portfolio.Service.DTOs.Projects;
 using Portfolio.Service.DTOs.Skills;
+using Portfolio.Service.DTOs.UserAssets;
 
 namespace Portfolio.Service.DTOs.Users;
 
 public class UserResultDto
 {
+    public long Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
@@ -21,5 +23,5 @@ public class UserResultDto
     public ICollection<ExperienceResultDto> Experiences { get; set; }
     public ICollection<ProjectResultDto> Projects { get; set; }
     public ICollection<SkillResultDto> Skills { get; set; }
-    public ICollection<UserResultDto> UserAssets { get; set; }
+    public ICollection<UserAssetResultDto> UserAssets { get; set; }
 }

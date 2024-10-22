@@ -17,17 +17,20 @@ public class ProjectService : IProjectService
     private readonly IRepository<User> userRepository;
     private readonly IAssetService assetService;
     private readonly IProjectAssetService projectAssetService;
+    private readonly IRepository<ProjectAsset> projectAssetRepository;
     public ProjectService(IMapper mapper,
                             IRepository<Project> projectRepository,
                             IRepository<User> userRepository,
                             IAssetService assetService,
-                            IProjectAssetService projectAssetService)
+                            IProjectAssetService projectAssetService,
+                            IRepository<ProjectAsset> projectAssetRepository)
     {
         this.mapper = mapper;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.assetService = assetService;
         this.projectAssetService = projectAssetService;
+        this.projectAssetRepository = projectAssetRepository;
     }
 
     public async Task<ProjectResultDto> CreateAsync(ProjectCreationDto dto)
@@ -105,7 +108,7 @@ public class ProjectService : IProjectService
             else if(existProject.ProjectAssets.Count > 1)
             {
                 var projectAssetSecond = existProject.ProjectAssets.Skip(1).First();
-                var projectAssetSecondId = projectAsset.Id;
+                var projectAssetSecondId = projectAssetSecond.Id;
 
                 await this.assetService.DeleteImageAsync(projectAssetSecondId);
                 await this.projectAssetService.DeleteAsync(projectAssetSecondId);
@@ -126,8 +129,16 @@ public class ProjectService : IProjectService
         return mappedProject;
     }
 
-    public Task<ProjectResultDto> DeleteImageOrVideoAsync(long id)
+    public async Task<bool> DeleteImageOrVideoAsync(long id)
     {
-        throw new NotImplementedException();
+        var inclusion = new string[] { "Asset" };
+
+        var existProjectAsset = await this.projectAssetRepository.GetAsync(pa => pa.Asset.Id.Equals(id), inclusion)
+            ?? throw new NotFoundException($"asset was not foun with id = {id}");
+
+        this.projectAssetRepository.Delete(existProjectAsset);
+        await this.assetService.DeleteImageAsync(id);
+
+        return true;
     }
 }

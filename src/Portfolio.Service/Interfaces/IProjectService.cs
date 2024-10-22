@@ -11,5 +11,5 @@ public interface IProjectService
     Task<ProjectResultDto> GetByIdAsync(long id);
     Task<IEnumerable<ProjectResultDto>> GetAllAsync();
     Task<ProjectResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, Enum type);
-    Task<ProjectResultDto> DeleteImageOrVideoAsync(long id);
+    Task<bool> DeleteImageOrVideoAsync(long id);
 }

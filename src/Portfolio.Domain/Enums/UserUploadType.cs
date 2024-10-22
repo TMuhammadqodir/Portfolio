@@ -3,6 +3,5 @@
 public enum UserUploadType
 {
     Resume = 1,
-    ProfileImage,
-    BackgroudImage
+    ProfileImage
 }

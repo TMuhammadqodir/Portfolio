@@ -5,5 +5,5 @@ namespace Portfolio.Service.Interfaces;
 
 public interface IAuthService
 {
-
+    ValueTask<UserResponseDto> GenerateTokenAsync(string userName, string originalPassword);
 }
