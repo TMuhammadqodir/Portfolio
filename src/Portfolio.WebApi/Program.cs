@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSwagger();
+
 //Db context
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
