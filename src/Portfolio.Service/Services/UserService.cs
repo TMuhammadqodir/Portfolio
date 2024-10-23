@@ -35,7 +35,7 @@ public class UserService : IUserService
         this.userAssetRepository = userAssetRepository;
     }
 
-    public async ValueTask<UserResultDto> AddAsync(UserCreationDto dto)
+    public async Task<UserResultDto> CreateAsync(UserCreationDto dto)
     {
         var user = await this.userRepository.GetAsync(x =>
             x.UserName.ToLower().Equals(dto.UserName.ToLower()));
@@ -51,7 +51,7 @@ public class UserService : IUserService
         return this.mapper.Map<UserResultDto>(mappedUser);
     }
 
-    public async ValueTask<UserResultDto> ModifyAsync(UserUpdateDto dto)
+    public async Task<UserResultDto> UpdateAsync(UserUpdateDto dto)
     {
         var existUser = await this.userRepository.GetAsync(u => u.Id.Equals(dto.Id))
             ?? throw new NotFoundException($"This user is not found with Id = {dto.Id}");
@@ -74,7 +74,7 @@ public class UserService : IUserService
         return this.mapper.Map<UserResultDto>(existUser);
     }
 
-    public async ValueTask<bool> RemoveAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
         var existUser = await this.userRepository.GetAsync(u => u.Id.Equals(id), includes: new[] { "Asset" })
             ?? throw new NotFoundException($"This user is not found with Id = {id}");
@@ -85,7 +85,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async ValueTask<IEnumerable<UserResultDto>> RetrieveAllAsync(PaginationParams @params, string search = null)
+    public async Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams @params, string search = null)
     {
         var users = await this.userRepository.GetAll()
             .ToPaginate(@params)
@@ -97,13 +97,13 @@ public class UserService : IUserService
         return this.mapper.Map<IEnumerable<UserResultDto>>(users);
     }
 
-    public async ValueTask<IEnumerable<UserResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<UserResultDto>> GetAllAsync()
     {
         var users = await this.userRepository.GetAll().ToListAsync();
         return this.mapper.Map<IEnumerable<UserResultDto>>(users);
     }
 
-    public async ValueTask<UserResultDto> RetrieveByIdAsync(long id)
+    public async Task<UserResultDto> GetByIdAsync(long id)
     {
         var existUser = await this.userRepository.GetAsync(expression: u => u.Id.Equals(id))
             ?? throw new NotFoundException($"This user is not found with Id = {id}");
@@ -111,7 +111,7 @@ public class UserService : IUserService
         return this.mapper.Map<UserResultDto>(existUser);
     }
 
-    public async ValueTask<UserResultDto> UpgradeRoleAsync(long id, UserRole role)
+    public async Task<UserResultDto> UpgradeRoleAsync(long id, UserRole role)
     {
         var existUser = await this.userRepository.GetAsync(u => u.Id.Equals(id))
             ?? throw new NotFoundException($"This user is not found with Id = {id}");

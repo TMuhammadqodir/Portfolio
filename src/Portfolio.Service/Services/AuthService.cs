@@ -28,7 +28,7 @@ public class AuthService : IAuthService
         this.configuration = configuration;
     }
 
-    public async ValueTask<UserResponseDto> GenerateTokenAsync(string userName, string originalPassword)
+    public async Task<UserResponseDto> GenerateTokenAsync(string userName, string originalPassword)
     {
         var user = await this.userRepository.GetAsync(u => u.UserName.ToLower().Equals(userName.ToLower()))
             ?? throw new NotFoundException("This user is not found");

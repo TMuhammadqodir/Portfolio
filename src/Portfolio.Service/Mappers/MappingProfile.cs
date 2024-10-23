@@ -35,5 +35,6 @@ public class MappingProfile : Profile
         CreateMap<User, UserCreationDto>().ReverseMap();
         CreateMap<User, UserUpdateDto>().ReverseMap();
         CreateMap<User, UserResultDto>().ReverseMap();
+        CreateMap<User, UserResponseDto>().ReverseMap();
     }
 }
