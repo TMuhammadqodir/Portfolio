@@ -43,6 +43,7 @@ public class UserService : IUserService
             throw new AlreadyExistException($"This userName is already exist");
 
         var mappedUser = this.mapper.Map<User>(dto);
+        mappedUser.Role = UserRole.User;
 
         mappedUser.PasswordHash = PasswordHash.Encrypt(dto.PasswordHash);
         await this.userRepository.AddAsync(mappedUser);
@@ -99,13 +100,17 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserResultDto>> GetAllAsync()
     {
-        var users = await this.userRepository.GetAll().ToListAsync();
+        var inclusion = new string[] { "UserAssets.Asset" };
+
+        var users = await this.userRepository.GetAll(includes: inclusion).ToListAsync();
         return this.mapper.Map<IEnumerable<UserResultDto>>(users);
     }
 
     public async Task<UserResultDto> GetByIdAsync(long id)
     {
-        var existUser = await this.userRepository.GetAsync(expression: u => u.Id.Equals(id))
+        var inclusion = new string[] { "UserAssets.Asset" };
+
+        var existUser = await this.userRepository.GetAsync(expression: u => u.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"This user is not found with Id = {id}");
 
         return this.mapper.Map<UserResultDto>(existUser);
@@ -122,9 +127,9 @@ public class UserService : IUserService
         return this.mapper.Map<UserResultDto>(existUser);
     }
 
-    public async Task<UserResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, Enum type)
+    public async Task<UserResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, UserUploadType type)
     {
-        var inclusion = new string[] { "UserAsset.Asset" };
+        var inclusion = new string[] { "UserAssets.Asset" };
 
         var existUser = await userRepository.GetAsync(p => p.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"This user not found with id = {id}");
@@ -134,20 +139,18 @@ public class UserService : IUserService
         if (existUser.UserAssets.Any())
         {
             var userAsset = existUser.UserAssets.First();
-            var userAssetId = userAsset.Id;
 
             if (type.ToString().Equals(userAsset.UserUploadType.ToString()))
             {
-                await this.assetService.DeleteImageAsync(userAssetId);
-                await this.userAssetService.DeleteAsync(userAssetId);
+                await this.DeleteImageOrVideoAsync(userAsset.AssetId);
+                existUser.UserAssets.Remove(userAsset);
             }
             else if (existUser.UserAssets.Count > 1)
             {
                 var userAssetSecond = existUser.UserAssets.Skip(1).First();
-                var userAssetSecondId = userAssetSecond.Id;
 
-                await this.assetService.DeleteImageAsync(userAssetSecondId);
-                await this.userAssetService.DeleteAsync(userAssetSecondId);
+                await this.DeleteImageOrVideoAsync(userAssetSecond.AssetId);
+                existUser.UserAssets.Remove(userAssetSecond);
             }
 
         }
@@ -157,7 +160,8 @@ public class UserService : IUserService
         var newUserAsset = new UserAssetCreationDto()
         {
             UserId = id,
-            AssetId = newAsset.Id
+            AssetId = newAsset.Id,
+            UserUploadType = type
         };
 
         mappedUser.UserAssets.Add(await this.userAssetService.CreateAsync(newUserAsset));
@@ -172,7 +176,7 @@ public class UserService : IUserService
         var existUserAsset = await this.userAssetRepository.GetAsync(pa => pa.Asset.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"asset was not foun with id = {id}");
 
-        this.userAssetRepository.Delete(existUserAsset);
+        await this.userAssetService.DeleteAsync(existUserAsset.Id);
         await this.assetService.DeleteImageAsync(id);
 
         return true;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Service.DTOs.Educations;
+using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
 using Portfolio.WebApi.Models;
 
@@ -16,13 +17,16 @@ public class EducationsController : BaseController
 
     [HttpPost("create")]
     public async Task<IActionResult> PostAsync(EducationCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Succes",
-            Data = await educationService.CreateAsync(dto)
-        });
-   
+    {
+        dto.UserId = HtppContextHelper.GetUserId();
+    
+        return Ok(new Response
+           {
+               StatusCode = 200,
+               Message = "Succes",
+               Data = await educationService.CreateAsync(dto)
+           });
+    }
     [HttpPost("update")]
     public async Task<IActionResult> UpdateAsync(EducationUpdateDto dto)
         => Ok(new Response

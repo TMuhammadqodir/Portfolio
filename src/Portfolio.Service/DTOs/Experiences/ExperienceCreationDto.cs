@@ -10,5 +10,5 @@ public class ExperienceCreationDto
     public string Address { get; set; }
     public bool IsCurrentJob { get; set; } = false;
 
-    public long UserId { get; set; }
+    public long? UserId { get; set; }
 }

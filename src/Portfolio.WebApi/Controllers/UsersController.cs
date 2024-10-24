@@ -4,6 +4,7 @@ using Portfolio.Domain.Configurations;
 using Portfolio.Domain.Enums;
 using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.Users;
+using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
 using Portfolio.WebApi.Models;
 
@@ -29,12 +30,16 @@ public class UsersController : BaseController
 
     [HttpPut("update")]
     public async Task<IActionResult> PutAsync(UserUpdateDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Success",
-            Data = await this.userService.UpdateAsync(dto)
-        });
+    {
+        dto.Id = HtppContextHelper.GetUserId();
+    
+        return Ok(new Response
+           {
+               StatusCode = 200,
+               Message = "Success",
+               Data = await this.userService.UpdateAsync(dto)
+           });
+    }
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
@@ -58,7 +63,7 @@ public class UsersController : BaseController
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllAsync(
         [FromQuery] PaginationParams @params)
-        => Ok(new Response
+        =>  Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
@@ -77,12 +82,12 @@ public class UsersController : BaseController
         });
 
     [HttpPost("image-upload")]
-    public async Task<IActionResult> UploadImageAsync(long productId, [FromForm] AssetCreationDto dto, UserUploadType type)
+    public async Task<IActionResult> UploadImageAsync(long userId, [FromForm] AssetCreationDto dto, UserUploadType type)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await this.userService.UploadImageOrVideoAsync(productId, dto, type)
+            Data = await this.userService.UploadImageOrVideoAsync(userId, dto, type)
         });
 
     [HttpDelete("image-delete/{id:long}")]

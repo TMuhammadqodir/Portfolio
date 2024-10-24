@@ -15,6 +15,6 @@ public interface IUserService
     Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams @params, string search = null);
     Task<IEnumerable<UserResultDto>> GetAllAsync();
     Task<UserResultDto> UpgradeRoleAsync(long id, UserRole role);
-    Task<UserResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, Enum type);
+    Task<UserResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, UserUploadType type);
     Task<bool> DeleteImageOrVideoAsync(long id);
 }
