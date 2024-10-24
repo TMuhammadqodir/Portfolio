@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Domain.Enums;
 using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.Projects;
+using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
 using Portfolio.WebApi.Models;
 
@@ -18,12 +19,16 @@ public class ProjectsController : BaseController
 
     [HttpPost("create")]
     public async Task<IActionResult> PostAsync(ProjectCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Succes",
-            Data = await projectService.CreateAsync(dto)
-        });
+    { 
+        dto.UserId = HtppContextHelper.GetUserId();
+
+        return Ok(new Response
+           {
+               StatusCode = 200,
+               Message = "Succes",
+               Data = await projectService.CreateAsync(dto)
+           });
+    }
 
     [HttpPost("update")]
     public async Task<IActionResult> UpdateAsync(ProjectUpdateDto dto)

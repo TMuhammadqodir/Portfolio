@@ -4,11 +4,11 @@ using Microsoft.OpenApi.Models;
 using Portfolio.DataAccess.IRepositories;
 using Portfolio.DataAccess.Repositories;
 using Portfolio.Service.DTOs.Users;
+using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
 using Portfolio.Service.Mappers;
 using Portfolio.Service.Services;
 using System.Text;
-
 namespace Portfolio.WebApi.Extensions;
 
 public static class ServiceCollection
@@ -39,6 +39,11 @@ public static class ServiceCollection
 
         //Swagger Lowercase
         services.AddRouting(options => options.LowercaseUrls = true);
+
+        //htppcintext
+        var serviceProvider = services.BuildServiceProvider();
+        var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+        HtppContextHelper.Configure(httpContextAccessor);
     }
 
     public static void AddJwt(this IServiceCollection services, IConfiguration configuration)

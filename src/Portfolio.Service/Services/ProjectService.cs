@@ -2,9 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess.IRepositories;
 using Portfolio.Domain.Entities;
+using Portfolio.Domain.Enums;
 using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.ProjectAssets;
 using Portfolio.Service.DTOs.Projects;
+using Portfolio.Service.DTOs.UserAssets;
+using Portfolio.Service.DTOs.Users;
 using Portfolio.Service.Exceptions;
 using Portfolio.Service.Interfaces;
 
@@ -72,7 +75,9 @@ public class ProjectService : IProjectService
 
     public async Task<ProjectResultDto> GetByIdAsync(long id)
     {
-        var existProject = await this.projectRepository.GetAsync(e => e.Id.Equals(id))
+        var inclusion = new string[] { "ProjectAssets.Asset" };
+
+        var existProject = await this.projectRepository.GetAsync(e => e.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"This project was not found with {id}");
 
         return this.mapper.Map<ProjectResultDto>(existProject);
@@ -80,15 +85,17 @@ public class ProjectService : IProjectService
 
     public async Task<IEnumerable<ProjectResultDto>> GetAllAsync()
     {
-        var projects = await this.projectRepository.GetAll()
+        var inclusion = new string[] { "ProjectAssets.Asset" };
+
+        var projects = await this.projectRepository.GetAll(includes: inclusion)
             .ToListAsync();
 
         return this.mapper.Map<IEnumerable<ProjectResultDto>>(projects);
     }
 
-    public async Task<ProjectResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, Enum type)
+    public async Task<ProjectResultDto> UploadImageOrVideoAsync(long id, AssetCreationDto dto, ProjectUploadType type)
     {
-        var inclusion = new string[] { "ProjectAsset.Asset" };
+        var inclusion = new string[] { "ProjectAssets.Asset" };
 
         var existProject = await projectRepository.GetAsync(p => p.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"This project not found with id = {id}");
@@ -98,20 +105,18 @@ public class ProjectService : IProjectService
         if (existProject.ProjectAssets.Any())
         {
             var projectAsset = existProject.ProjectAssets.First();
-            var projectAssetId = projectAsset.Id;
 
             if (type.ToString().Equals(projectAsset.ProjectUploadType.ToString()))
             {
-                await this.assetService.DeleteImageAsync(projectAssetId);
-                await this.projectAssetService.DeleteAsync(projectAssetId);
+                await this.DeleteImageOrVideoAsync(projectAsset.AssetId);
+                existProject.ProjectAssets.Remove(projectAsset);
             }
-            else if(existProject.ProjectAssets.Count > 1)
+            else if (existProject.ProjectAssets.Count > 1)
             {
                 var projectAssetSecond = existProject.ProjectAssets.Skip(1).First();
-                var projectAssetSecondId = projectAssetSecond.Id;
 
-                await this.assetService.DeleteImageAsync(projectAssetSecondId);
-                await this.projectAssetService.DeleteAsync(projectAssetSecondId);
+                await this.DeleteImageOrVideoAsync(projectAssetSecond.AssetId);
+                existProject.ProjectAssets.Remove(projectAssetSecond);
             }
 
         }
@@ -121,22 +126,22 @@ public class ProjectService : IProjectService
         var newProjectAsset = new ProjectAssetCreationDto()
         {
             ProjectId = id,
-            AssetId = newAsset.Id
+            AssetId = newAsset.Id,
+            ProjectUploadType = type
         };
 
         mappedProject.ProjectAssets.Add(await this.projectAssetService.CreateAsync(newProjectAsset));
 
         return mappedProject;
     }
-
     public async Task<bool> DeleteImageOrVideoAsync(long id)
     {
         var inclusion = new string[] { "Asset" };
 
-        var existProjectAsset = await this.projectAssetRepository.GetAsync(pa => pa.Asset.Id.Equals(id), inclusion)
+        var existUserAsset = await this.projectAssetRepository.GetAsync(pa => pa.Asset.Id.Equals(id), inclusion)
             ?? throw new NotFoundException($"asset was not foun with id = {id}");
 
-        this.projectAssetRepository.Delete(existProjectAsset);
+        await this.projectAssetService.DeleteAsync(existUserAsset.Id);
         await this.assetService.DeleteImageAsync(id);
 
         return true;

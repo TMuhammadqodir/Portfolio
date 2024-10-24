@@ -3,8 +3,10 @@ using Portfolio.Domain.Entities;
 using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.Educations;
 using Portfolio.Service.DTOs.Experiences;
+using Portfolio.Service.DTOs.ProjectAssets;
 using Portfolio.Service.DTOs.Projects;
 using Portfolio.Service.DTOs.Skills;
+using Portfolio.Service.DTOs.UserAssets;
 using Portfolio.Service.DTOs.Users;
 
 namespace Portfolio.Service.Mappers;
@@ -36,5 +38,11 @@ public class MappingProfile : Profile
         CreateMap<User, UserUpdateDto>().ReverseMap();
         CreateMap<User, UserResultDto>().ReverseMap();
         CreateMap<User, UserResponseDto>().ReverseMap();
+
+        CreateMap<UserAsset, UserAssetCreationDto>().ReverseMap();
+        CreateMap<UserAsset, UserAssetResultDto>().ReverseMap();
+
+        CreateMap<ProjectAsset, ProjectAssetCreationDto>().ReverseMap();
+        CreateMap<ProjectAsset, ProjectAssetResultDto>().ReverseMap();
     }
 }

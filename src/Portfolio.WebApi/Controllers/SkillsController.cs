@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Service.DTOs.Skills;
+using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
 using Portfolio.WebApi.Models;
 
@@ -16,12 +17,16 @@ public class SkillsController : BaseController
 
     [HttpPost("create")]
     public async Task<IActionResult> PostAsync(SkillCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Succes",
-            Data = await skillService.CreateAsync(dto)
-        });
+    {
+        dto.UserId = HtppContextHelper.GetUserId();
+
+        return Ok(new Response
+           {
+               StatusCode = 200,
+               Message = "Succes",
+               Data = await skillService.CreateAsync(dto)
+           });
+    }
 
     [HttpPost("update")]
     public async Task<IActionResult> UpdateAsync(SkillUpdateDto dto)
