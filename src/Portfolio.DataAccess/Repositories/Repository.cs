@@ -17,8 +17,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         this.dbSet = this.dbContext.Set<TEntity>();
     }
 
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
-        => await this.dbSet.AddAsync(entity, cancellationToken);
+    public async Task AddAsync(TEntity entity)
+        => await this.dbSet.AddAsync(entity);
 
     public void Update(TEntity entity)
     {
@@ -32,7 +32,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
     public void Destroy(TEntity entity)
         => this.dbContext.Entry(entity).State = EntityState.Deleted;
 
-    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, string[]? includes = null, CancellationToken cancellationToken = default)
+    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, string[]? includes = null)
     {
         IQueryable<TEntity> query = dbSet;
 
@@ -40,11 +40,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
             foreach (var include in includes)
                 query = query.Include(include);
 
-        return await query.FirstOrDefaultAsync(expression, cancellationToken: cancellationToken);
+        return await query.FirstOrDefaultAsync(expression);
     }
 
-    public async Task<TEntity?> GetAsync(long id, string[]? includes = null, CancellationToken cancellationToken = default)
-        => await this.GetAsync(e => e.Id.Equals(id), includes, cancellationToken);
+    public async Task<TEntity?> GetAsync(long id, string[]? includes = null)
+        => await this.GetAsync(e => e.Id.Equals(id), includes);
 
     public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>>? expression = null, bool isNoTracked = true, string[]? includes = null)
     {
@@ -62,6 +62,6 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         return query;
     }
 
-    public async Task SaveAsync(CancellationToken cancellationToken = default)
-        => await this.dbContext.SaveChangesAsync(cancellationToken);
+    public async Task SaveAsync()
+        => await this.dbContext.SaveChangesAsync();
 }
