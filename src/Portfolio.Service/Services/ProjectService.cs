@@ -6,8 +6,6 @@ using Portfolio.Domain.Enums;
 using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.ProjectAssets;
 using Portfolio.Service.DTOs.Projects;
-using Portfolio.Service.DTOs.UserAssets;
-using Portfolio.Service.DTOs.Users;
 using Portfolio.Service.Exceptions;
 using Portfolio.Service.Interfaces;
 
