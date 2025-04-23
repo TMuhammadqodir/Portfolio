@@ -47,6 +47,10 @@ builder.Services.AddCors(options =>
 // Helpers
 PathHelper.WebRootPath = Path.Combine(builder.Environment.WebRootPath);
 
+// Set ASPNETCORE_URLS from environment variable for Render.com
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";  // Default to 8080 if not set
+builder.WebHost.UseUrls($"http://*:{port}");
+
 var app = builder.Build();
 
 // Pipeline
