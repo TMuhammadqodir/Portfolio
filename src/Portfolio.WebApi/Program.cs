@@ -7,60 +7,65 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.ConfigureSwagger();
-
-//Db context
-builder.Services.AddDbContext<AppDbContext>(options =>
+// Logger
+builder.Host.UseSerilog((context, config) =>
 {
-    options.UseNpgsql(builder.Configuration
-        .GetConnectionString("DefaultConnection"));
+    config.ReadFrom.Configuration(context.Configuration)
+          .Enrich.FromLogContext();
 });
 
-//Loop ignore
-builder.Services.AddControllersWithViews()
+// Services
+builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-//Services
-builder.Services.AddServices();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
-//JWT token
+// Database
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("DB connection string not found"));
+});
+
+// JWT
 builder.Services.AddJwt(builder.Configuration);
 
-// Logger
-var logger = new LoggerConfiguration()
-                    .ReadFrom.Configuration(builder.Configuration)
-                    .Enrich.FromLogContext()
-                    .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
-PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
+// Helpers
+PathHelper.WebRootPath = Path.Combine(builder.Environment.WebRootPath);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseAuthentication();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+else
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAll");
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.MapControllers();
 
 app.Run();
-
-
