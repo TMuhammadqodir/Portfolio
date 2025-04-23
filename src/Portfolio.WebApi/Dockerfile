@@ -17,7 +17,7 @@ COPY ["src/Portfolio.Service/Portfolio.Service.csproj", "src/Portfolio.Service/"
 RUN dotnet restore "src/Portfolio.WebApi/Portfolio.WebApi.csproj"
 
 # Copy all source code
-COPY ./src ./src
+COPY . .
 
 # Build the project
 WORKDIR "/src/src/Portfolio.WebApi"
