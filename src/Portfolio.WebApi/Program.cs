@@ -30,6 +30,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ?? throw new InvalidOperationException("DB connection string not found"));
 });
 
+// Services
+builder.Services.AddServices();
+
 // JWT
 builder.Services.AddJwt(builder.Configuration);
 
