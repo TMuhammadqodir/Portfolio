@@ -2,25 +2,26 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 # Build image
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy only project files for restore
-COPY ["src/Portfolio.WebApi/Portfolio.WebApi.csproj", "src/Portfolio.WebApi/"]
-COPY ["src/Portfolio.DataAccess/Portfolio.DataAccess.csproj", "src/Portfolio.DataAccess/"]
-COPY ["src/Portfolio.Domain/Portfolio.Domain.csproj", "src/Portfolio.Domain/"]
-COPY ["src/Portfolio.Service/Portfolio.Service.csproj", "src/Portfolio.Service/"]
+# Copy solution file first (agar bor bo'lsa)
+COPY ["Portfolio.sln", "./"]
+COPY ["../Portfolio.DataAccess/Portfolio.DataAccess.csproj", "../Portfolio.DataAccess/"]
+COPY ["../Portfolio.Domain/Portfolio.Domain.csproj", "../Portfolio.Domain/"]
+COPY ["../Portfolio.Service/Portfolio.Service.csproj", "../Portfolio.Service/"]
+COPY ["Portfolio.WebApi.csproj", "./"]
 
 # Restore dependencies
-RUN dotnet restore "src/Portfolio.WebApi/Portfolio.WebApi.csproj"
+RUN dotnet restore "Portfolio.WebApi.csproj"
 
 # Copy all source code
 COPY . .
 
 # Build the project
-WORKDIR "/src/src/Portfolio.WebApi"
 RUN dotnet build "Portfolio.WebApi.csproj" -c Release -o /app/build
 
 # Publish the project
