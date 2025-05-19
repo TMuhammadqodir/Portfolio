@@ -64,4 +64,14 @@ public class EducationsController : BaseController
             Message = "Success",
             Data = await educationService.GetAllAsync()
         });
+
+    [AllowAnonymous]
+    [HttpGet("get-by-user-id")]
+    public async Task<IActionResult> GetByUserIdAsync(long userId)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await educationService.GetByUserIdAsync(userId)
+        });
 }
