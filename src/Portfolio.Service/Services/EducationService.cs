@@ -74,4 +74,12 @@ public class EducationService : IEducationService
 
         return this.mapper.Map<IEnumerable<EducationResultDto>>(educations);
     }
+
+    public async Task<IEnumerable<EducationResultDto>> GetByUserIdAsync(long userId)
+    {
+        var educations = await this.educationRepository.GetAll(e => e.UserId.Equals(userId))
+            .ToListAsync();
+
+        return this.mapper.Map<IEnumerable<EducationResultDto>>(educations);
+    }
 }
