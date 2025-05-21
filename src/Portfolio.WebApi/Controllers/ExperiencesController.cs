@@ -65,4 +65,13 @@ public class ExperiencesController : BaseController
             Message = "Success",
             Data = await experienceService.GetAllAsync()
         });
+
+    [HttpGet("get-by-user-id")]
+    public async Task<IActionResult> GetByUserIdAsync(long userId)
+       => Ok(new Response
+       {
+           StatusCode = 200,
+           Message = "Success",
+           Data = await experienceService.GetByUserIdAsync(userId)
+       });
 }

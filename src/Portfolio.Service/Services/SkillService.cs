@@ -74,4 +74,12 @@ public class SkillService : ISkillService
 
         return this.mapper.Map<IEnumerable<SkillResultDto>>(skills);
     }
+
+    public async Task<IEnumerable<SkillResultDto>> GetByUserIdAsync(long userId)
+    {
+        var skills = await this.skillRepository.GetAll(s=> s.UserId.Equals(userId))
+            .ToListAsync();
+
+        return this.mapper.Map<IEnumerable<SkillResultDto>>(skills);
+    }
 }

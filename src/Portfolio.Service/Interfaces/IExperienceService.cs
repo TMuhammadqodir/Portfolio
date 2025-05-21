@@ -1,4 +1,5 @@
-﻿using Portfolio.Service.DTOs.Experiences;
+﻿using Portfolio.Service.DTOs.Educations;
+using Portfolio.Service.DTOs.Experiences;
 
 namespace Portfolio.Service.Interfaces;
 
@@ -9,4 +10,5 @@ public interface IExperienceService
     Task<bool> DeleteAsync(long id);
     Task<ExperienceResultDto> GetByIdAsync(long id);
     Task<IEnumerable<ExperienceResultDto>> GetAllAsync();
+    Task<IEnumerable<ExperienceResultDto>> GetByUserIdAsync(long userId);
 }

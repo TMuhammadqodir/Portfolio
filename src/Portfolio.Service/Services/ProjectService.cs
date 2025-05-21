@@ -144,4 +144,14 @@ public class ProjectService : IProjectService
 
         return true;
     }
+
+    public async Task<IEnumerable<ProjectResultDto>> GetByUserIdAsync(long userId)
+    {
+        var inclusion = new string[] { "ProjectAssets.Asset" };
+
+        var projects = await this.projectRepository.GetAll(p=> p.UserId.Equals(userId),includes: inclusion)
+            .ToListAsync();
+
+        return this.mapper.Map<IEnumerable<ProjectResultDto>>(projects);
+    }
 }

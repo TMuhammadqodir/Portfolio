@@ -65,7 +65,6 @@ public class EducationsController : BaseController
             Data = await educationService.GetAllAsync()
         });
 
-    [AllowAnonymous]
     [HttpGet("get-by-user-id")]
     public async Task<IActionResult> GetByUserIdAsync(long userId)
         => Ok(new Response
