@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Portfolio.Service.DTOs.Skills;
 using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
+using Portfolio.Service.Services;
 using Portfolio.WebApi.Models;
 
 namespace Portfolio.WebApi.Controllers;
@@ -65,4 +66,13 @@ public class SkillsController : BaseController
             Message = "Success",
             Data = await skillService.GetAllAsync()
         });
+
+    [HttpGet("get-by-user-id")]
+    public async Task<IActionResult> GetByUserIdAsync(long userId)
+       => Ok(new Response
+       {
+           StatusCode = 200,
+           Message = "Success",
+           Data = await skillService.GetByUserIdAsync(userId)
+       });
 }

@@ -74,4 +74,12 @@ public class ExperienceService : IExperienceService
 
         return this.mapper.Map<IEnumerable<ExperienceResultDto>>(experiences);
     }
+
+    public async Task<IEnumerable<ExperienceResultDto>> GetByUserIdAsync(long userId)
+    {
+        var experiences = await this.experienceRepository.GetAll(e=> e.UserId.Equals(userId))
+            .ToListAsync();
+
+        return this.mapper.Map<IEnumerable<ExperienceResultDto>>(experiences);
+    }
 }

@@ -5,6 +5,7 @@ using Portfolio.Service.DTOs.Assets;
 using Portfolio.Service.DTOs.Projects;
 using Portfolio.Service.Helpers;
 using Portfolio.Service.Interfaces;
+using Portfolio.Service.Services;
 using Portfolio.WebApi.Models;
 
 namespace Portfolio.WebApi.Controllers;
@@ -67,6 +68,15 @@ public class ProjectsController : BaseController
             Message = "Success",
             Data = await projectService.GetAllAsync()
         });
+
+    [HttpGet("get-by-user-id")]
+    public async Task<IActionResult> GetByUserIdAsync(long userId)
+       => Ok(new Response
+       {
+           StatusCode = 200,
+           Message = "Success",
+           Data = await projectService.GetByUserIdAsync(userId)
+       });
 
     [HttpPost("image-upload")]
     public async Task<IActionResult> UploadImageAsync(long productId, [FromForm] AssetCreationDto dto, ProjectUploadType type)
