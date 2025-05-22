@@ -41,7 +41,7 @@ public class ProjectsController : BaseController
     [HttpPost("update/{id:long}")]
     public async Task<IActionResult> UpdateAsync(long id, [FromForm] ProjectUpdateDto projectUpdateDto, ProjectUploadType type)
     {
-        dto.Id = id;
+        projectUpdateDto.Id = id;
 
         var updateProject = await projectService.UpdateAsync(projectUpdateDto);
 
