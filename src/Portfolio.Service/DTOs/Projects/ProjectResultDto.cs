@@ -9,7 +9,7 @@ public class ProjectResultDto
     public long Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-
+    public string? URL { get; set; }
     public UserResultDto User { get; set; }
     public ICollection<ProjectAssetResultDto> ProjectAssets { get; set; }
 }
