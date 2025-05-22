@@ -19,9 +19,14 @@ public class ProjectsController : BaseController
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> PostAsync(ProjectCreationDto projectCreationDto, [FromForm] AssetCreationDto assetCreationDto, ProjectUploadType type)
+    public async Task<IActionResult> PostAsync([FromForm] ProjectCreationDto projectCreationDto,  ProjectUploadType type)
     { 
         var projectResult = await projectService.CreateAsync(projectCreationDto);
+
+        var assetCreationDto = new AssetCreationDto()
+        {
+            FormFile = projectCreationDto.FormFile,
+        };
 
         var projectResultDto = await UploadImageAsync(projectResult.Id, assetCreationDto, type);
 
@@ -34,11 +39,16 @@ public class ProjectsController : BaseController
     }
 
     [HttpPost("update/{id:long}")]
-    public async Task<IActionResult> UpdateAsync(long id, ProjectUpdateDto dto, [FromForm] AssetCreationDto assetCreationDto, ProjectUploadType type)
+    public async Task<IActionResult> UpdateAsync(long id, [FromForm] ProjectUpdateDto projectUpdateDto, ProjectUploadType type)
     {
         dto.Id = id;
 
-        var updateProject = await projectService.UpdateAsync(dto);
+        var updateProject = await projectService.UpdateAsync(projectUpdateDto);
+
+        var assetCreationDto = new AssetCreationDto()
+        {
+            FormFile = projectUpdateDto.FormFile,
+        };
 
         var projectResultDto = await UploadImageAsync(updateProject.Id, assetCreationDto, type);
 

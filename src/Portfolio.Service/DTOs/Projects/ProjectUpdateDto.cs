@@ -1,4 +1,6 @@
-﻿namespace Portfolio.Service.DTOs.Projects;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Portfolio.Service.DTOs.Projects;
 
 public class ProjectUpdateDto
 {
@@ -6,4 +8,5 @@ public class ProjectUpdateDto
     public string Name { get; set; }
     public string Description { get; set; }
     public string? URL { get; set; }
+    public IFormFile FormFile { get; set; }
 }
