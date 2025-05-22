@@ -31,14 +31,18 @@ public class ProjectsController : BaseController
            });
     }
 
-    [HttpPost("update")]
-    public async Task<IActionResult> UpdateAsync(ProjectUpdateDto dto)
-        => Ok(new Response
+    [HttpPost("update/{id:long}")]
+    public async Task<IActionResult> UpdateAsync(long id, ProjectUpdateDto dto)
+    {
+        dto.Id = id;
+
+        return Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
             Data = await projectService.UpdateAsync(dto)
         });
+    }
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

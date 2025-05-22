@@ -27,14 +27,18 @@ public class EducationsController : BaseController
                Data = await educationService.CreateAsync(dto)
            });
     }
-    [HttpPost("update")]
-    public async Task<IActionResult> UpdateAsync(EducationUpdateDto dto)
-        => Ok(new Response
+    [HttpPost("update/{id:long}")]
+    public async Task<IActionResult> UpdateAsync(long id, EducationUpdateDto dto)
+    {
+        dto.Id = id;
+
+        return Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
             Data = await educationService.UpdateAsync(dto)
         });
+    }
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

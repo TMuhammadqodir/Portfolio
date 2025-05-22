@@ -29,14 +29,18 @@ public class SkillsController : BaseController
            });
     }
 
-    [HttpPost("update")]
-    public async Task<IActionResult> UpdateAsync(SkillUpdateDto dto)
-        => Ok(new Response
+    [HttpPost("update/{id:long}")]
+    public async Task<IActionResult> UpdateAsync(long id, SkillUpdateDto dto)
+    {
+        dto.Id = id;
+
+        return Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
             Data = await skillService.UpdateAsync(dto)
         });
+    }
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

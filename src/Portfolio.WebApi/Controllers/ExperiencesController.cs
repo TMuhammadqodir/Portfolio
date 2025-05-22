@@ -28,14 +28,18 @@ public class ExperiencesController : BaseController
            });
     }
 
-    [HttpPost("update")]
-    public async Task<IActionResult> UpdateAsync(ExperienceUpdateDto dto)
-        => Ok(new Response
+    [HttpPost("update/{id:long}")]
+    public async Task<IActionResult> UpdateAsync(long id, ExperienceUpdateDto dto)
+    {
+        dto.Id = id;
+
+        return Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
             Data = await experienceService.UpdateAsync(dto)
         });
+    }
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
