@@ -8,5 +8,4 @@ public class ProjectCreationDto
     public string Description { get; set; }
     public string? URL { get; set; }
     public long? UserId { get; set; }
-    public IFormFile FormFile { get; set; }
 }
