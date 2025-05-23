@@ -19,44 +19,30 @@ public class ProjectsController : BaseController
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> PostAsync([FromForm] ProjectCreationDto projectCreationDto,  ProjectUploadType type)
+    public async Task<IActionResult> PostAsync(ProjectCreationDto projectCreationDto)
     { 
         var projectResult = await projectService.CreateAsync(projectCreationDto);
-
-        var assetCreationDto = new AssetCreationDto()
-        {
-            FormFile = projectCreationDto.FormFile,
-        };
-
-        var projectResultDto = await UploadImageAsync(projectResult.Id, assetCreationDto, type);
 
         return Ok(new Response
            {
                StatusCode = 200,
                Message = "Succes",
-               Data = projectResultDto
+               Data = projectResult
            });
     }
 
     [HttpPost("update/{id:long}")]
-    public async Task<IActionResult> UpdateAsync(long id, [FromForm] ProjectUpdateDto projectUpdateDto, ProjectUploadType type)
+    public async Task<IActionResult> UpdateAsync(long id, ProjectUpdateDto projectUpdateDto)
     {
         projectUpdateDto.Id = id;
 
         var updateProject = await projectService.UpdateAsync(projectUpdateDto);
 
-        var assetCreationDto = new AssetCreationDto()
-        {
-            FormFile = projectUpdateDto.FormFile,
-        };
-
-        var projectResultDto = await UploadImageAsync(updateProject.Id, assetCreationDto, type);
-
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = projectResultDto
+            Data = updateProject
         });
     }
 
